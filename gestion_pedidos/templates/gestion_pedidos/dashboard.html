@@ -1,0 +1,11 @@
+{% extends "gestion_pedidos/base.html" %}
+{% block title %}Resumen | Supermercado Express{% endblock %}
+{% block content %}
+<h1 class="h2 mb-1">Resumen operativo</h1><p class="text-secondary mb-4">Métricas calculadas a partir de los pedidos registrados.</p>
+<div class="row g-3">
+  <div class="col-md-6 col-xl-3"><div class="card card-body h-100"><div class="text-secondary">Pedidos recibidos</div><div class="display-6 fw-bold">{{ total_pedidos }}</div></div></div>
+  <div class="col-md-6 col-xl-3"><div class="card card-body h-100"><div class="text-secondary">Despacho Express</div><div class="display-6 fw-bold">{{ express }}</div><span class="badge rounded-pill mt-2 align-self-start" style="background:#dbeafe;color:#1e40af">EXPRESS</span></div></div>
+  <div class="col-md-6 col-xl-3"><div class="card card-body h-100"><div class="text-secondary">Retiro en tienda</div><div class="display-6 fw-bold">{{ pickup }}</div><span class="badge rounded-pill mt-2 align-self-start" style="background:#fef3c7;color:#92400e">PICKUP</span></div></div>
+  <div class="col-md-6 col-xl-3"><div class="card card-body h-100"><div class="text-secondary">Suma de totales estimados</div><div class="h3 fw-bold">${{ ingresos }}</div></div></div>
+</div>
+{% endblock %}

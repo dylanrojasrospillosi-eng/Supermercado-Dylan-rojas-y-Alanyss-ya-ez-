@@ -1,0 +1,34 @@
+{% extends "gestion_pedidos/base.html" %}
+{% block title %}Catálogo | Supermercado Express{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <div><h1 class="h2 mb-1">Catálogo de productos</h1><p class="text-secondary mb-0">Consulta productos y disponibilidad de inventario.</p></div>
+  <a class="btn btn-success" href="{% url 'registrar_pedido' %}">+ Registrar pedido</a>
+</div>
+<form method="get" class="card card-body mb-4">
+  <div class="row g-3 align-items-end">
+    <div class="col-md-4"><label class="form-label">Categoría</label>
+      <select name="categoria" class="form-select"><option value="">Todas</option>
+        {% for categoria in categorias %}<option value="{{ categoria.id }}" {% if categoria_seleccionada == categoria.id|stringformat:"s" %}selected{% endif %}>{{ categoria.nombre }}</option>{% endfor %}
+      </select></div>
+    <div class="col-md-3"><label class="form-label">Stock</label>
+      <select name="stock" class="form-select"><option value="">Todos</option><option value="disponible" {% if stock_seleccionado == "disponible" %}selected{% endif %}>Disponible</option><option value="agotado" {% if stock_seleccionado == "agotado" %}selected{% endif %}>Agotado</option></select></div>
+    <div class="col-md-3"><label class="form-label">Refrigeración</label>
+      <select name="refrigerados" class="form-select"><option value="">Todos</option><option value="si" {% if refrigerados_seleccionado == "si" %}selected{% endif %}>Refrigerados</option><option value="no" {% if refrigerados_seleccionado == "no" %}selected{% endif %}>No refrigerados</option></select></div>
+    <div class="col-md-2 d-grid"><button class="btn btn-outline-success">Filtrar</button></div>
+  </div>
+</form>
+<div class="table-responsive card">
+<table class="table table-hover align-middle mb-0">
+  <thead class="table-success"><tr><th>Producto</th><th>SKU</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Conservación</th></tr></thead>
+  <tbody>
+  {% for producto in productos %}
+    <tr><td class="fw-semibold">{{ producto.nombre }}</td><td>{{ producto.sku }}</td><td>{{ producto.categoria.nombre }}</td>
+    <td>${{ producto.precio }}</td><td>{% if producto.stock > 0 %}<span class="badge text-bg-success">{{ producto.stock }} disponible(s)</span>{% else %}<span class="badge text-bg-danger">Agotado</span>{% endif %}</td>
+    <td>{% if producto.requiere_refrigeracion %}<span class="badge text-bg-info">Refrigerado</span>{% else %}<span class="badge text-bg-secondary">Ambiente</span>{% endif %}</td></tr>
+  {% empty %}
+    <tr><td colspan="6" class="text-center py-5"><h2 class="h5">No hay productos para mostrar</h2><p class="text-secondary mb-0">Prueba cambiando los filtros o agrega productos desde Administración.</p></td></tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+{% endblock %}
